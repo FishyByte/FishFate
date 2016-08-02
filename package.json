@@ -1,6 +1,6 @@
 {
-  "name": "fishfate",
-  "version": "1.1.1",
+  "name": "Fishfate",
+  "version": "1.0.0",
   "description": "FishFate: An Ionic project",
   "dependencies": {
     "gulp": "^3.5.6",
