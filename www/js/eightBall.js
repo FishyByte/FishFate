@@ -59,7 +59,7 @@ app.controller('eightBallController', function ($scope, $http) {
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
           'quantity': '1',
-          'max_value': (($scope.eightBall.answers.length) - 1)
+          'max_value': (($scope.eightBall.answers.length))
         },      crossDomain: true
     }).then(function successCallback(response) {
       $scope.eightBall.resultIndex = parseInt(response.data);
