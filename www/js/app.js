@@ -1,5 +1,4 @@
-
-var app = angular.module('FishFate', ['ionic']);
+var app = angular.module('FishFate', ['ionic', 'ngCordova']);
 
 /**
  * standard ionic ish
@@ -17,20 +16,19 @@ app.run(function ($ionicPlatform) {
 });
 
 
-
-app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup) {
+app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $cordovaClipboard) {
 
   $scope.images = {
-    demo:         'img/fishDemo_2.gif',
-    heads:        'img/coinHeads.png',
-    tails:        'img/coinTails.png',
-    die:          'img/fishDie.png',
+    demo: 'img/fishDemo_2.gif',
+    heads: 'img/coinHeads.png',
+    tails: 'img/coinTails.png',
+    die: 'img/fishDie.png',
     fishFateIcon: 'img/iconMed.png',
 
     about: {
-      position:   'img/fishPosition.png',
-      graph:      'img/graph.png',
-      tankSetup:  'img/tankSetup.png'
+      position: 'img/fishPosition.png',
+      graph: 'img/graph.png',
+      tankSetup: 'img/tankSetup.png'
     }
   };
   $scope.errorMessages = {
@@ -43,14 +41,15 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup) {
   };
 
 
-
   /* go back button */
-  $scope.goBack = function () { $ionicHistory.goBack(); };
+  $scope.goBack = function () {
+    $ionicHistory.goBack();
+  };
 
   /* error message */
-  $scope.displayError = function (status){
+  $scope.displayError = function (status) {
     var messageIndex = 2;
-    switch(status){
+    switch (status) {
       /* no internet connection */
       case -1:
         messageIndex = 1;
@@ -80,7 +79,17 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup) {
         }
       ]
     });
-    myPopup.then(function (res) { });
+    myPopup.then(function (res) {
+    });
+  };
+
+
+  $scope.copyText = function (value) {
+    $cordovaClipboard.copy(value).then(function () {
+      console.log("Copied text");
+    }, function () {
+      console.error("There was an error copying");
+    });
   }
 });
 

@@ -1,5 +1,7 @@
 # Fish Fate
 
+![alt tag](./www/img/fishDemo_2.gif)
+
 This ionic built application is used to demonstrate a random number generator by tracking fish
 movements. This app has the following features: magic 8-ball responses, dice roller, coin flip, lottery
 number generation, and more nerdy random generation uses.

@@ -34,12 +34,12 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
         'quantity': '1',
-        'max_value': $scope.randoms.getInt.maxValue
+        'max_value': String(parseInt($scope.randoms.getInt.maxValue) + 1)
       },
       crossDomain: true
     }).then(function successCallback(response) {
       $scope.randoms.getInt.response = response.data;
-      popUpResponse(0);
+      popUpResponse(0, $scope.randoms.getInt.response);
 
     }, function errorCallback(response) {
       $scope.displayError(response.status);
@@ -59,14 +59,14 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       crossDomain: true
     }).then(function successCallback(response) {
       $scope.randoms.getBinary.response = response.data;
-      popUpResponse(1);
+      popUpResponse(1, $scope.randoms.getBinary.response);
     }, function errorCallback(response) {
       $scope.displayError(response.status);
     });
   };
 
 
-  var popUpResponse = function (index) {
+  var popUpResponse = function (index, response) {
 
     // Custom popup
     var myPopup = $ionicPopup.prompt({
@@ -74,6 +74,13 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       scope: $scope,
       title: titleArray[index],
       buttons: [
+        {
+          text: '<b>copy to clipboard</b>',
+          type: 'button-assertive',
+          onTap: function (e) {
+            return $scope.copyText(response);
+          }
+        },
         {
           text: '<b>done</b>',
           type: 'button-assertive',
@@ -85,6 +92,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
     });
 
     myPopup.then(function (res) {
+      /* were done, nuke the responses */
       $scope.randoms.getInt.response = '';
       $scope.randoms.getBinary.response = '';
     });
