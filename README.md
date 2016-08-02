@@ -7,11 +7,11 @@ number generation, and more nerdy random generation uses.
 ---
 
 ### Table of Contents
- - [Installation](#Installation)
- - [Build](#Build)
- - [Usage](#Usage)
- - [Contributing](#Contributing)
- - [License](#License)
+ - [Installation](#installation)
+ - [Build](#build)
+ - [Usage](#usage)
+ - [Contributing](#contributing)
+ - [License](#license)
  
 ---
 
