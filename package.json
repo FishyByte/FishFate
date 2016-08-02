@@ -1,7 +1,7 @@
 {
-  "name": "Fishfate",
+  "name": "FishFate",
   "version": "1.0.0",
-  "description": "FishFate: An Ionic project",
+  "description": "FishFate: an app that uses random numbers generated from fish",
   "dependencies": {
     "gulp": "^3.5.6",
     "gulp-sass": "^2.0.4",
