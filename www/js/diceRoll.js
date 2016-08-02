@@ -31,7 +31,7 @@ app.controller('diceController', function ($scope, $http) {
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
         'quantity': '5',
-        'max_value': (String($scope.diceRoll.numberSides))
+        'max_value': String($scope.diceRoll.numberSides)
       },
       crossDomain: true
     }).then(function successCallback(response) {

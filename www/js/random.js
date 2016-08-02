@@ -34,7 +34,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
         'quantity': '1',
-        'max_value': $scope.randoms.getInt.maxValue + 1
+        'max_value': String(parseInt($scope.randoms.getInt.maxValue) + 1)
       },
       crossDomain: true
     }).then(function successCallback(response) {
