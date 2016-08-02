@@ -56,17 +56,12 @@ your desired platform, either `ios` or `android`.
     npm install
     ```
     
-2.  Reset the state of ionic.
-    ```
-    ionic state reset
-    ```
-    
-3.  Add the desired platform. Swap `<platform>` for either `ios` or `android`
+2.  Add the desired platform. Swap `<platform>` for either `ios` or `android`
     ```
     ionic platform add <platform>
     ```
 
-4. Now build the project.
+3. Now build the project.
    ```
    ionic build <platform>
    ```
