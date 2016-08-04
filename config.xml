@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<widget id="FishFate" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+<widget id="me.asakawa.fish-fate" version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
   <name>Fish Fate</name>
   <description>
-        An Ionic Framework and Cordova project.
+      Random dice roll, coin flip, magic 8-ball, lottery numbers, and more.
     </description>
   <author email="chris@asakawa.me" href="http://asakawa.me/">
-      Your Name Here
+      Chris Asakawa
     </author>
   <content src="index.html"/>
   <access origin="*"/>
