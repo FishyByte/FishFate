@@ -13,7 +13,7 @@ Corey Aing
       <h4>How do the fish make a random number?</h4>
       <ol class="rectangle-list">
         <li>
-          <a ng-click="clickListItem(0)" id="listElement0"><div class="listItemHeader">Fish Setup</div>
+          <a ng-click="clickListItem(0)" id="listElement0"><div class="listItemHeader"><b>Fish Setup</b></div>
             <div id="listItem0" class="overflow-scroll">
               <img id="tankSetup" ng-src="{{images.about.tankSetup}}"><br>
               We used a raspberry pi and a raspberry pi fish eye camera to stream a video of the fish.
@@ -23,7 +23,7 @@ Corey Aing
           </a>
         </li>
         <li>
-          <a ng-click="clickListItem(1)" id="listElement1"><div class="listItemHeader">Fish Tracking</div>
+          <a ng-click="clickListItem(1)" id="listElement1"><div class="listItemHeader"><b>Fish Tracking</b></div>
             <div id="listItem1" class="overflow-scroll">
               <img id="fishPosition" ng-src="{{images.about.position}}"><br>
               Fish movements are tracked by their initial position on an x/y plane, where their
@@ -34,7 +34,7 @@ Corey Aing
         </li>
 
         <li>
-          <a ng-click="clickListItem(2)" id="listElement2"><div class="listItemHeader">Generating Randomness</div>
+          <a ng-click="clickListItem(2)" id="listElement2"><div class="listItemHeader"><b>Generating Randomness</b></div>
             <div id="listItem2" class="overflow-scroll">
               <br>We read in a certain number of bits from the bitstream and then calculate the
               distribution of the 1's and 0's.<br><br>From that we calculate the Shannon Entropy which tells
@@ -47,7 +47,7 @@ Corey Aing
         </li>
 
         <li>
-          <a ng-click="clickListItem(3)" id="listElement3"><div class="listItemHeader">How Random?</div>
+          <a ng-click="clickListItem(3)" id="listElement3"><div class="listItemHeader"><b>How Random?</b></div>
             <div id="listItem3" class="overflow-scroll">
               <img id="scatter" ng-src="{{images.about.graph}}" class="stretch"><br>
               Above is a scatter plot graph that shows the
@@ -58,7 +58,7 @@ Corey Aing
         </li>
 
         <li>
-          <a ng-click="clickListItem(4)" id="listElement4"><div class="listItemHeader">The Stats</div>
+          <a ng-click="clickListItem(4)" id="listElement4"><div class="listItemHeader"><b>The Stats</b></div>
             <div id="listItem4" class="overflow-scroll">
               <table id="listItemTable" class="nistTable smallBorderRadius">
                 <tr>
