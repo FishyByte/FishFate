@@ -19,7 +19,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
   /* scope variable, the following are the default values */
   $scope.randoms = {
     getInt: {
-      maxValue: '255',
+      maxValue: '100',
       response: ''
     },
     getBinary: {

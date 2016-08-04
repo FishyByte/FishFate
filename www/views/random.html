@@ -18,7 +18,7 @@
             <div class="range-label">0</div>
             <input type="range"
                    min="1"
-                   max="255"
+                   max="100"
                    data-ng-model="randoms.getInt.maxValue">
             {{randoms.getInt.maxValue}}
           </div>
@@ -32,8 +32,9 @@
           <div class="item range">
             <div class="range-label"># bits:</div>
             <input type="range"
-                   min="1"
-                   max="500"
+                   min="16"
+                   max="256"
+                   step="16"
                    data-ng-model="randoms.getBinary.quantity">
             {{randoms.getBinary.quantity}}
           </div>
@@ -48,8 +49,9 @@
           <div class="item range">
             <div class="range-label"># hex values</div>
             <input type="range"
-                   min="1"
+                   min="2"
                    max="100"
+                   step="2"
                    data-ng-model="randoms.getHex.quantity">
             {{randoms.getHex.quantity}}
           </div>
