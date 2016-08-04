@@ -31,13 +31,12 @@ app.controller('aboutViewController', function ($scope) {
         });
       });
     }
-
   }
 
   function closeOne(index) {
     listItems[index].fadeOut('fast', function (i) {
       listElements[index].animate({
-        height: '30px'
+        height: '35px'
       }, 'fast', function () {
         isDisplayed[index] = false;
       })

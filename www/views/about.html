@@ -8,13 +8,13 @@ Corey Aing
     <a style="font-size: 20px">About</a>
   </ion-nav-title>
 
-  <div id="aboutBlock">
+  <div id="aboutBlock" >
     <div ng-controller="aboutViewController">
       <h4>How do the fish make a random number?</h4>
       <ol class="rectangle-list">
         <li>
-          <a ng-click="clickListItem(0)" id="listElement0"><b>Fish Setup</b>
-            <div id="listItem0">
+          <a ng-click="clickListItem(0)" id="listElement0"><div class="listItemHeader">Fish Setup</div>
+            <div id="listItem0" class="overflow-scroll">
               <img id="tankSetup" ng-src="{{images.about.tankSetup}}"><br>
               We used a raspberry pi and a raspberry pi fish eye camera to stream a video of the fish.
               We then process this video to give us an x and y position of each fish for each frame of
@@ -23,8 +23,8 @@ Corey Aing
           </a>
         </li>
         <li>
-          <a ng-click="clickListItem(1)" id="listElement1"><b>Fish Tracking</b>
-            <div id="listItem1">
+          <a ng-click="clickListItem(1)" id="listElement1"><div class="listItemHeader">Fish Tracking</div>
+            <div id="listItem1" class="overflow-scroll">
               <img id="fishPosition" ng-src="{{images.about.position}}"><br>
               Fish movements are tracked by their initial position on an x/y plane, where their
               next position they move to will generate a binary number as
@@ -34,8 +34,8 @@ Corey Aing
         </li>
 
         <li>
-          <a ng-click="clickListItem(2)" id="listElement2"><b>Generating Randomness</b>
-            <div id="listItem2">
+          <a ng-click="clickListItem(2)" id="listElement2"><div class="listItemHeader">Generating Randomness</div>
+            <div id="listItem2" class="overflow-scroll">
               <br>We read in a certain number of bits from the bitstream and then calculate the
               distribution of the 1's and 0's.<br><br>From that we calculate the Shannon Entropy which tells
               the amount of entropy in the bits. Entropy is then calculated
@@ -47,8 +47,8 @@ Corey Aing
         </li>
 
         <li>
-          <a ng-click="clickListItem(3)" id="listElement3"><b>How Random?</b>
-            <div id="listItem3">
+          <a ng-click="clickListItem(3)" id="listElement3"><div class="listItemHeader">How Random?</div>
+            <div id="listItem3" class="overflow-scroll">
               <img id="scatter" ng-src="{{images.about.graph}}" class="stretch"><br>
               Above is a scatter plot graph that shows the
               distribution of about 2000 randomly generated x and y values
@@ -58,8 +58,8 @@ Corey Aing
         </li>
 
         <li>
-          <a ng-click="clickListItem(4)" id="listElement4"><b>The Stats</b>
-            <div id="listItem4">
+          <a ng-click="clickListItem(4)" id="listElement4"><div class="listItemHeader">The Stats</div>
+            <div id="listItem4" class="overflow-scroll">
               <table id="listItemTable" class="nistTable smallBorderRadius">
                 <tr>
                   <th align="left"><b>Statistical Test</b></th>

@@ -5,6 +5,9 @@
 .aboutImgBlock {
   width: 100%;
 }
+.listItemHeader {
+  margin-top: 3px;
+}
 
 .aboutTextBlock {
   width: 100%;
@@ -20,6 +23,10 @@
 
 #listItem0, #listItem1, #listItem2, #listItem3, #listItem4 {
   display: none;
+  margin-top: 40px;
+  padding-left: 5px;
+  padding-right: 15px;
+  padding-bottom: 5px;
 }
 
 /*List item specific css*/
