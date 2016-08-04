@@ -83,7 +83,7 @@ a {
 
 .menuLayerOne{
   position: absolute;
-  height: 44px;
+  height: 45px;
   width: 100%;
   background-color: #801399;
 
@@ -100,15 +100,7 @@ a {
   border: 1px #9d6db1;
 
 }
-/*.menuLayerThree{
-    position: absolute;
-    height: 170px;
-    width: 170px;
-    border-radius: 100% 100%;
-    background-color: white;
-    left: -46px;
-    top: 35px;
-}*/
+
 .fishFateIcon {
   width: 60px;
   height: 60px;
