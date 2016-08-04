@@ -2,8 +2,15 @@
   overflow: hidden;
 }
 
+#aboutViewHeader {
+  text-align: center;
+  padding: 10px;
+}
 .aboutImgBlock {
   width: 100%;
+}
+.listItemHeader {
+  margin-top: 3px;
 }
 
 .aboutTextBlock {
@@ -20,6 +27,10 @@
 
 #listItem0, #listItem1, #listItem2, #listItem3, #listItem4 {
   display: none;
+  margin-top: 40px;
+  padding-left: 10px;
+  padding-right: 15px;
+  padding-bottom: 10px;
 }
 
 /*List item specific css*/
@@ -69,14 +80,12 @@ ol {
 
 }
 
-/*.rectangle-list a:hover{
+.rectangle-list a:hover{
   background: #eee;
   height: 300px;
   transition: all .5s ease-out;
 }
-#listItem0 + .rectangle-list a:hover{
-  display: inline-block;
-}*/
+
 
 .rectangle-list a:before {
   content: counter(li);
@@ -94,7 +103,6 @@ ol {
   color: white;
 }
 
-/*
 .rectangle-list a:after{
   position: absolute;
   content: '';
@@ -103,14 +111,12 @@ ol {
   top: 50%;
   margin-top: -.5em;
   transition: all .3s ease-out;
-}*/
-/*
+}
 
 .rectangle-list a:hover:after{
   left: -.5em;
   border-left-color: #ef473a;
 }
-*/
 
 .rngInfo {
   list-style-type: disc;
