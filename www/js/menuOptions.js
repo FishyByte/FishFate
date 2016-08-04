@@ -8,7 +8,7 @@ app.controller('menuOptionsController', function ($scope) {
   var optionOpen = [false, false, false];
 
   /* variable to make height of element static */
-  var COIN_HEIGHT = 0
+  var COIN_HEIGHT = 0;
 
   /* menu selection options */
   $scope.selectEightBall = function () {
@@ -68,7 +68,6 @@ app.controller('menuOptionsController', function ($scope) {
     // coin flip div changes height, this corrects that
     if (COIN_HEIGHT === 0)
       COIN_HEIGHT = $('.backgroundGif').height();
-    console.log(COIN_HEIGHT);
 
     $('#fishBanner').animate({
       height: getHeight(COIN_HEIGHT + 45)
