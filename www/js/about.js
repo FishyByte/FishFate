@@ -4,6 +4,7 @@
 var app = angular.module('FishFate');
 app.controller('aboutViewController', function ($scope) {
 
+
   var LIST_HEIGHT = $('#aboutBlock').height();
   var VIEW_HEIGHT = $('#aboutView').height();
   var PADDING = 10;
