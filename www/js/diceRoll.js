@@ -111,17 +111,17 @@ app.controller('diceController', function ($scope, $http) {
       duration: 1900
     });
     element.animate({
-      top: '-200px'
+      top: '-100px'
     }, 500, function () {
       diceResults[index].fadeIn('fast');
       element.animate({
-        top: 0
+        top: '10px'
       }, 500, function () {
         element.animate({
           top: '-10px'
         }, 150, function () {
           element.animate({
-            top: 0
+            top: '15px'
           }, 150, function () {
             isActivated = false;
           })
