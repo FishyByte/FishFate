@@ -8,7 +8,7 @@ app.controller('menuOptionsController', function ($scope) {
   var optionOpen = [false, false, false];
 
   /* variable to make height of element static */
-  var COIN_HEIGHT = 0
+  var COIN_HEIGHT = 0;
 
   /* menu selection options */
   $scope.selectEightBall = function () {
@@ -51,7 +51,7 @@ app.controller('menuOptionsController', function ($scope) {
 
   function showDiceRoll() {
     $('#fishBanner').animate({
-      height: getHeight($('#diceRoll').height())
+      height: getHeight($('#diceRoll').height() - 7)
     }, 'fast', function () {
       if (!optionOpen[1]) {
         $('#eightBall').fadeOut('fast');
@@ -70,7 +70,7 @@ app.controller('menuOptionsController', function ($scope) {
       COIN_HEIGHT = $('.backgroundGif').height();
 
     $('#fishBanner').animate({
-      height: COIN_HEIGHT
+      height: getHeight(COIN_HEIGHT + 45)
     }, 'fast', function () {
       if (!optionOpen[2]) {
         $('#eightBall').fadeOut('fast');
@@ -89,13 +89,12 @@ app.controller('menuOptionsController', function ($scope) {
    * height then return the caluclated height, otherwise return the
    * banner height.
    * */
-  function getHeight(elementHeight, offset) {
+  function getHeight(elementHeight) {
     var viewHeights = [
       $('.backgroundGif').height(), // demo banner
       $('.view').height(),          // height of entire view
       $('#menuOptions').height(),   // height of menu options
-      elementHeight + 78,
-      // height of option element + offset
+      elementHeight + 78
     ];
     /* loop through elements subtracting from the view height */
     for (var i = 2; i < viewHeights.length; i++) {

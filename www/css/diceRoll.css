@@ -1,38 +1,58 @@
 
 #diceRoll{
   display: none;
+  position: relative;
 
 }
-
 #diceBlock{
-  height: 95px;
-
+  display: inline-block;
+  position: relative;
+  height: 90px;
+  width: 100%;
+  top: -1px;
+}
+.diceParamBlock{
+  top: -7px;
 }
 .die {
-  display: inline-block;
-  position: inherit;
+  position: absolute;
   width: 60px;
   height: 60px;
+  top: 15px;
+
 }
 .dieResult {
-  position: inherit;
-  top: -55px;
-  left:0;
+  position: absolute;
+  top: 10px;
+  left: 13px;
   padding: 10px;
   font-size: 30px;
   color: white;
   text-align: center;
 }
 #die0{
-    margin-left: 50%;
-  left: -160px;
+  margin-left: 50%;
+  left: -158px;
 }
 #die1 {
-  margin-left: -160px;
+  margin-left: 50%;
+  left: -94px;
+}
+#die2 {
+  margin-left: 50%;
+  left: -30px;
+}
+#die3 {
+  margin-left: 50%;
+  left: 34px;
+}
+#die4 {
+  margin-left: 50%;
+  left: 98px;
 }
 
 .rounded-10{
-    border-radius: 10px 10px 10px 10px;
+  border-radius: 10px 10px 10px 10px;
   -moz-border-radius: 10px 10px 10px 10px;
   -webkit-border-radius: 10px 10px 10px 10px;
 }

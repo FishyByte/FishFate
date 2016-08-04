@@ -19,7 +19,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
   /* scope variable, the following are the default values */
   $scope.randoms = {
     getInt: {
-      maxValue: '255',
+      maxValue: '100',
       response: ''
     },
     getBinary: {
@@ -82,7 +82,8 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       },
       crossDomain: true
     }).then(function successCallback(response) {
-      $scope.randoms.getHex.response = response.data;
+      $scope.randoms.getHex.response = hexRemoveLong(response.data);
+
       popUpResponse(2, $scope.randoms.getHex.response);
     }, function errorCallback(response) {
       $scope.displayError(response.status);
@@ -120,7 +121,13 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       $scope.randoms.getBinary.response = '';
       $scope.randoms.getHex.response = '';
     });
+  };
+  /* method to remove the "L" from long hex */
+  function hexRemoveLong (responseString){
+    var lastChar = responseString.charAt(responseString.length - 1);
+    if (lastChar == "L"){
+      responseString = responseString.slice(0, -1);
+    }
+    return responseString;
   }
-
-
 });
