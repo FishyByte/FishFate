@@ -7,14 +7,16 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
   /* these arrays are used for formatting the pop up responses */
   var titleArray = [
     'The fish retrieved this number for you',
-    'The fish retrieved this binary string for you'
+    'The fish retrieved this binary string for you',
+    'The fish retrieved these hexadecimals for you'
   ];
   var responseArray = [
     '<h1 style="text-align: center">{{randoms.getInt.response}}</h1>',
-    '<h4 style="text-align: center">{{randoms.getBinary.response}}</h4>'
+    '<h4 style="text-align: center">{{randoms.getBinary.response}}</h4>',
+    '<h3 style="text-align: center">{{randoms.getHex.response}}</h3>'
   ];
 
-
+  /* scope variable, the following are the default values */
   $scope.randoms = {
     getInt: {
       maxValue: '255',
@@ -22,6 +24,10 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
     },
     getBinary: {
       quantity: '32',
+      response: ''
+    },
+    getHex: {
+      quantity: '6',
       response: ''
     }
   };
@@ -46,7 +52,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
     });
   };
 
-
+  // When button is clicked, the popup will be shown with results
   $scope.getBinary = function () {
 
     delete $http.defaults.headers.common['X-Requested-With'];
@@ -65,10 +71,27 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
     });
   };
 
+  $scope.getHex = function () {
+
+    delete $http.defaults.headers.common['X-Requested-With'];
+    $http({
+      method: "GET",
+      url: 'https://fish-bit-hub.herokuapp.com/get-hex',
+      headers: {
+        'quantity': $scope.randoms.getHex.quantity
+      },
+      crossDomain: true
+    }).then(function successCallback(response) {
+      $scope.randoms.getHex.response = response.data;
+      popUpResponse(2, $scope.randoms.getHex.response);
+    }, function errorCallback(response) {
+      $scope.displayError(response.status);
+    });
+  };
+
 
   var popUpResponse = function (index, response) {
-
-    // Custom popup
+    // ionic pop up response
     var myPopup = $ionicPopup.prompt({
       template: responseArray[index],
       scope: $scope,
@@ -95,6 +118,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       /* were done, nuke the responses */
       $scope.randoms.getInt.response = '';
       $scope.randoms.getBinary.response = '';
+      $scope.randoms.getHex.response = '';
     });
   }
 
