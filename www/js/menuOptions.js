@@ -51,7 +51,7 @@ app.controller('menuOptionsController', function ($scope) {
 
   function showDiceRoll() {
     $('#fishBanner').animate({
-      height: getHeight($('#diceRoll').height())
+      height: getHeight($('#diceRoll').height() - 7)
     }, 'fast', function () {
       if (!optionOpen[1]) {
         $('#eightBall').fadeOut('fast');
