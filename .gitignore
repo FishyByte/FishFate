@@ -7,3 +7,5 @@ plugins/
 .idea/
 /my-release-key.keystore
 /productionBuild.sh
+/FishFate.apk
+/android-release-unsigned.apk
