@@ -90,6 +90,27 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
     }, function () {
       console.error("There was an error copying");
     });
-  }
-});
+  };
 
+
+  $scope.appRate = function(){
+    AppRate.preferences = {
+      openStoreInApp: true,
+      storeAppURL: {
+        ios: '<my_app_id>',
+        android: 'market://details?id=com.ionicframework.fishfate542805'
+        //windows: 'ms-windows-store://pdp/?ProductId=<the apps Store ID>',
+        //blackberry: 'appworld://content/[App Id]/',
+        //windows8: 'ms-windows-store:Review?name=<the Package Family Name of the application>'
+      },
+      customLocale: {
+        title: "Rate Fish Fate",
+        message: "The fish are working hard to get you those random values, why not show your appreciation and rate this app!",
+        cancelButtonLabel: "No, Thanks",
+        laterButtonLabel: "",
+        rateButtonLabel: "Rate It Now"
+      }
+    };
+    AppRate.promptForRating();
+  };
+});
