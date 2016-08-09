@@ -1,0 +1,6 @@
+/* init view with all hidden  */
+#randomInt, #randomBin, #randomHex {
+  display: none;
+  position: absolute;
+  width: 100%;
+}
