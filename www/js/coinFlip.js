@@ -38,7 +38,6 @@ app.controller('coinController', function ($scope, $http, $ionicLoading) {
         return true;
       });
       $scope.coinFlip.coinValues = response.data.split(' ');
-      console.log(response.status);
       if (!isActivated)
         animateCoins();
     }, function errorCallback(response) {
