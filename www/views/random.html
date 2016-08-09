@@ -12,7 +12,7 @@
 
       <!-- menu for different random value types -->
       <ion-list class="list-item ">
-        <ion-radio ng-click="menuSelection(0)" icon="ion-ios-checkmark-outline">Random Integer</ion-radio>
+        <ion-radio ng-click="menuSelection(0)" icon="hide">Random Integer</ion-radio>
         <ion-radio ng-click="menuSelection(1)" icon="hide">Random Binary String</ion-radio>
         <ion-radio ng-click="menuSelection(2)" icon="hide">Random Hexadecimals</ion-radio>
       </ion-list>
@@ -20,21 +20,35 @@
 
       <!-- get random integer -->
       <ion-item id="randomInt">
+        <div class="card">
         <div class="list">
           <div class="item range">
-            <div class="range-label">0</div>
+            <div class="range-label">min</div>
             <input type="range"
-                   min="1"
+                   min="0"
+                   max="{{randoms.getInt.maxValue}}"
+                   data-ng-model="randoms.getInt.minValue">
+            {{randoms.getInt.minValue}}
+          </div>
+          <div class="item range">
+            <div class="range-label">max</div>
+            <input type="range"
+                   min="{{randoms.getInt.minValue}}"
                    max="100"
                    data-ng-model="randoms.getInt.maxValue">
             {{randoms.getInt.maxValue}}
           </div>
-          <button class="button button-block button-assertive" ng-click="getInt()">Random Number</button>
+          <button class="button button-assertive randomButton" ng-click="getInt()">
+            Get Integer Between {{randoms.getInt.minValue}} And {{randoms.getInt.maxValue}}
+          </button>
         </div>
+          </div>
       </ion-item>
 
       <!-- get binary string -->
       <ion-item id="randomBin">
+                <div class="card">
+
         <div class="list">
           <div class="item range">
             <div class="range-label"># bits:</div>
@@ -45,13 +59,16 @@
                    data-ng-model="randoms.getBinary.quantity">
             {{randoms.getBinary.quantity}}
           </div>
-          <button class="button button-block button-assertive" ng-click="getBinary()">Random Binary String</button>
+          <button class="button button-assertive randomButton" ng-click="getBinary()">Random Binary String</button>
         </div>
+                  </div>
       </ion-item>
 
 
       <!-- get hex values -->
       <ion-item id="randomHex">
+                <div class="card">
+
         <div class="list">
           <div class="item range">
             <div class="range-label"># hex values</div>
@@ -62,8 +79,9 @@
                    data-ng-model="randoms.getHex.quantity">
             {{randoms.getHex.quantity}}
           </div>
-          <button class="button button-block button-assertive" ng-click="getHex()">Random Hexadecimals</button>
+          <button class="button button-assertive randomButton" ng-click="getHex()">Random Hexadecimals</button>
         </div>
+                  </div>
       </ion-item>
 
 

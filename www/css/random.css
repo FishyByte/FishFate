@@ -4,3 +4,9 @@
   position: absolute;
   width: 100%;
 }
+.randomButton{
+  margin-top: 10px;
+  margin-bottom: 10px;
+  margin-left: 10%;
+  width: 80%;
+}

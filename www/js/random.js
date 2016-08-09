@@ -26,7 +26,9 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   $scope.randoms = {
     menuSelection: 0,
     getInt: {
+      minValue: '0',
       maxValue: '100',
+      range: '100',
       response: ''
     },
     getBinary: {
@@ -50,20 +52,22 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     });
+
+    var range = parseInt($scope.randoms.getInt.maxValue) - parseInt($scope.randoms.getInt.minValue);
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
         'quantity': '1',
-        'max_value': String(parseInt($scope.randoms.getInt.maxValue) + 1)
+        'max_value': String(range + 1)
       },
       crossDomain: true
     }).then(function successCallback(response) {
       $ionicLoading.hide().then(function () {
         return true;
       });
-      $scope.randoms.getInt.response = response.data;
+      $scope.randoms.getInt.response = String(parseInt(response.data) + parseInt($scope.randoms.getInt.minValue));
       popUpResponse(0, $scope.randoms.getInt.response);
 
     }, function errorCallback(response) {
