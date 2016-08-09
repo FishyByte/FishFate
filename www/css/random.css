@@ -3,10 +3,12 @@
   display: none;
   position: absolute;
   width: 100%;
+  margin-top: 10%;
 }
 .randomButton{
   margin-top: 10px;
   margin-bottom: 10px;
   margin-left: 10%;
   width: 80%;
+  line-height: 15px;
 }
