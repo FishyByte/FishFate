@@ -51,7 +51,7 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
    */
   $scope.submitEightBall = function () {
     $ionicLoading.show({
-      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     }).then( function(){} );
     triangle.fadeOut(50);
     answer.fadeOut(50);

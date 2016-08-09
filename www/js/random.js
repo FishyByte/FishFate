@@ -34,7 +34,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   // When button is clicked, the popup will be shown...
   $scope.getInt = function () {
     $ionicLoading.show({
-      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     }).then( function(){} );
 
     delete $http.defaults.headers.common['X-Requested-With'];
@@ -60,7 +60,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   // When button is clicked, the popup will be shown with results
   $scope.getBinary = function () {
     $ionicLoading.show({
-      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     }).then( function(){} );
 
     delete $http.defaults.headers.common['X-Requested-With'];
@@ -85,7 +85,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
 
     delete $http.defaults.headers.common['X-Requested-With'];
     $ionicLoading.show({
-      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     }).then( function(){} );
 
     $http({

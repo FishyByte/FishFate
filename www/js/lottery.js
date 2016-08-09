@@ -28,7 +28,7 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
   $scope.getLottery = function () {
     if(!timeLocked){
       $ionicLoading.show({
-        template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+        template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
       }).then( function(){} );
       hideLottery();
       delete $http.defaults.headers.common['X-Requested-With'];

@@ -25,7 +25,7 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
    *  */
   $scope.submitRollDice = function () {
     $ionicLoading.show({
-      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     }).then( function(){} );
 
     $('.dieResult').fadeOut(100);
