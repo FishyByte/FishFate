@@ -93,7 +93,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
   };
 
 
-  $scope.appRate = function(){
+  $scope.appRate = function () {
     AppRate.preferences = {
       openStoreInApp: true,
       storeAppURL: {

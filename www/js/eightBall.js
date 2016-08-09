@@ -52,7 +52,7 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
   $scope.submitEightBall = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then( function(){} );
+    });
     triangle.fadeOut(50);
     answer.fadeOut(50);
 
@@ -61,17 +61,21 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
-          'quantity': '1',
-          'max_value': $scope.eightBall.answers.length
-        },      crossDomain: true
+        'quantity': '1',
+        'max_value': $scope.eightBall.answers.length
+      }, crossDomain: true
     }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.eightBall.resultIndex = parseInt(response.data);
-      if (!isActivated){
+      if (!isActivated) {
         animateEightBall();
       }
     }, function errorCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };

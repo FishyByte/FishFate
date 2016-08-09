@@ -26,7 +26,7 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
   $scope.submitRollDice = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then( function(){} );
+    }).then(function () {});
 
     $('.dieResult').fadeOut(100);
     delete $http.defaults.headers.common['X-Requested-With'];
@@ -39,7 +39,9 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
       },
       crossDomain: true
     }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       var tempArray = response.data.split(' ');
       /* dice don't start at zero, lets correct that */
       for (var i = 0; i < tempArray.length; i++)
@@ -48,7 +50,9 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
       if (!isActivated)
         rotateDice();
     }, function errorCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };
@@ -153,10 +157,10 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
   function showLoading() {
 
   }
-  function hideLoading(){
+
+  function hideLoading() {
 
   }
-
 
 
 });

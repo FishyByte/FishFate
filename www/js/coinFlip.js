@@ -23,24 +23,28 @@ app.controller('coinController', function ($scope, $http, $ionicLoading) {
   $scope.submitCoinFlip = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then( function(){} );
+    }).then(function () {});
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
-          'quantity': '4',
-          'max_value': '2'
-        },
+        'quantity': '4',
+        'max_value': '2'
+      },
       crossDomain: true
     }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.coinFlip.coinValues = response.data.split(' ');
       console.log(response.status);
       if (!isActivated)
         animateCoins();
     }, function errorCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };
@@ -105,7 +109,7 @@ app.controller('coinController', function ($scope, $http, $ionicLoading) {
     var trigger = setInterval(function () {
       if (flipCounts[elementIndex] == 1 + $scope.coinFlip.coinValues[elementIndex])
         clearInterval(trigger);
-        document.querySelector(coinIDs[elementIndex]).classList.toggle("flip");
+      document.querySelector(coinIDs[elementIndex]).classList.toggle("flip");
       flipCounts[elementIndex]++;
     }, 150);
     isActivated = false;

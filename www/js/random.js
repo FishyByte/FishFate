@@ -35,7 +35,8 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   $scope.getInt = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then( function(){} );
+    }).then(function () {
+    });
 
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
@@ -47,12 +48,16 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       },
       crossDomain: true
     }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.randoms.getInt.response = response.data;
       popUpResponse(0, $scope.randoms.getInt.response);
 
     }, function errorCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };
@@ -61,7 +66,8 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   $scope.getBinary = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then( function(){} );
+    }).then(function () {
+    });
 
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
@@ -72,11 +78,15 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       },
       crossDomain: true
     }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.randoms.getBinary.response = response.data;
       popUpResponse(1, $scope.randoms.getBinary.response);
     }, function errorCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };
@@ -86,7 +96,8 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
     delete $http.defaults.headers.common['X-Requested-With'];
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then( function(){} );
+    }).then(function () {
+    });
 
     $http({
       method: "GET",
@@ -96,12 +107,16 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       },
       crossDomain: true
     }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.randoms.getHex.response = hexRemoveLong(response.data);
 
       popUpResponse(2, $scope.randoms.getHex.response);
     }, function errorCallback(response) {
-      $ionicLoading.hide().then(function(){ return true; });
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };
@@ -139,9 +154,9 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
     });
   };
   /* method to remove the "L" from long hex */
-  function hexRemoveLong (responseString){
+  function hexRemoveLong(responseString) {
     var lastChar = responseString.charAt(responseString.length - 1);
-    if (lastChar == "L"){
+    if (lastChar == "L") {
       responseString = responseString.slice(0, -1);
     }
     return responseString;
