@@ -173,7 +173,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
 
   function showSelected(index){
     for (var i=0; i < randomElements.length; i++){
-      randomElements[i].fadeOut(0);
+      randomElements[i].fadeOut('fast');
     }
     randomElements[index].fadeIn('slow');
   }

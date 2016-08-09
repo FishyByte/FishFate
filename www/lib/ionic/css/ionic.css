@@ -8293,7 +8293,6 @@ input:checked + .checkbox-icon:after {
   .item-radio input:checked + .radio-content .item-content {
     /* style the item content when its checked */
     background: #ef473a;
-
     color: white;
   }
   .item-radio input:checked + .radio-content .radio-icon {
