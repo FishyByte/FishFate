@@ -3,10 +3,10 @@
  */
 
 var app = angular.module('FishFate');
-app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
+app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionicLoading) {
 
   /* jQuery objects */
-  var lotteryLines = [$('#lotteryLine0'), $('#lotteryLine1'), $('#lotteryLine2'), $('#lotteryLine3'), $('#lotteryLine4')]
+  var lotteryLines = [$('#lotteryLine0'), $('#lotteryLine1'), $('#lotteryLine2'), $('#lotteryLine3'), $('#lotteryLine4')];
 
   /* boolean used to time out users after making a request */
   var timeLocked = false;
@@ -26,7 +26,10 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
    *        b. otherwise report error message
    */
   $scope.getLottery = function () {
-    if(!timeLocked){
+    if (!timeLocked) {
+      $ionicLoading.show({
+        template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+      });
       hideLottery();
       delete $http.defaults.headers.common['X-Requested-With'];
       $http({
@@ -38,13 +41,19 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
         },
         crossDomain: true
       }).then(function successCallback(response) {
+        $ionicLoading.hide().then(function () {
+          return true;
+        });
         $scope.lottery.results = response.data.split(' ');
         displayLottery();
       }, function errorCallback(response) {
+        $ionicLoading.hide().then(function () {
+          return true;
+        });
         $scope.displayError(response.status);
       });
     }
-    else{
+    else {
       timeOutPopUp();
     }
   };
@@ -54,7 +63,7 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
    * on the toggle switch. flip the boolean, and set the
    * 'whichLottery' param.
    */
-  $scope.toggleLottery = function(){
+  $scope.toggleLottery = function () {
     $scope.lottery.isPowerBall = !$scope.lottery.isPowerBall;
     if ($scope.lottery.isPowerBall)
       $scope.lottery.whichLottery = 'MegaMillions';
@@ -66,13 +75,13 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
    * display the results from the GET request, uses
    * jQuery to fade in each element.
    */
-  function displayLottery(){
+  function displayLottery() {
     timeLocked = true;
     /* display all the lottery lines in increasing intervals */
     for (var i = 0; i < $scope.lottery.quantity; i++)
-      lotteryLines[i].fadeIn(400 * (i+1));
+      lotteryLines[i].fadeIn(400 * (i + 1));
     /* setTimeout the user from making another request */
-    setTimeout(function(){
+    setTimeout(function () {
       timeLocked = false;
     }, 1000 * 60 * 10); // ten minutes
   }
@@ -80,16 +89,16 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
   /**
    *  hide all of the lottery lines
    */
-  function hideLottery(){
-      for (var i = 4; i >= 0; i--)
-        lotteryLines[i].fadeOut(300);
+  function hideLottery() {
+    for (var i = 4; i >= 0; i--)
+      lotteryLines[i].fadeOut(300);
   }
 
   /**
    * prevent the user from spamming multiple GET requests, by
    * forcing the user to complete more button presses
    */
-  function timeOutPopUp(){
+  function timeOutPopUp() {
     /* create a pop-up message to display error text */
     var timeOutPopUp = $ionicPopup.prompt({
       template: '<h4>The fish did all that work for you and you just want to throw it all away?</h4>',
