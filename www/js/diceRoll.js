@@ -2,7 +2,7 @@
  * Created by asakawa on 7/26/16.
  */
 var app = angular.module('FishFate');
-app.controller('diceController', function ($scope, $http) {
+app.controller('diceController', function ($scope, $http, $ionicLoading) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -24,6 +24,10 @@ app.controller('diceController', function ($scope, $http) {
    *    3. animate the coins
    *  */
   $scope.submitRollDice = function () {
+    $ionicLoading.show({
+      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    }).then( function(){} );
+
     $('.dieResult').fadeOut(100);
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
@@ -35,6 +39,7 @@ app.controller('diceController', function ($scope, $http) {
       },
       crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       var tempArray = response.data.split(' ');
       /* dice don't start at zero, lets correct that */
       for (var i = 0; i < tempArray.length; i++)
@@ -43,6 +48,7 @@ app.controller('diceController', function ($scope, $http) {
       if (!isActivated)
         rotateDice();
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.displayError(response.status);
     });
   };
@@ -142,4 +148,16 @@ app.controller('diceController', function ($scope, $http) {
       }
     }, 100);
   }
+
+
+  function showLoading() {
+
+  }
+  function hideLoading(){
+
+  }
+
+
+
 });
+

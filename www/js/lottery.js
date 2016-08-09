@@ -3,10 +3,10 @@
  */
 
 var app = angular.module('FishFate');
-app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
+app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionicLoading) {
 
   /* jQuery objects */
-  var lotteryLines = [$('#lotteryLine0'), $('#lotteryLine1'), $('#lotteryLine2'), $('#lotteryLine3'), $('#lotteryLine4')]
+  var lotteryLines = [$('#lotteryLine0'), $('#lotteryLine1'), $('#lotteryLine2'), $('#lotteryLine3'), $('#lotteryLine4')];
 
   /* boolean used to time out users after making a request */
   var timeLocked = false;
@@ -27,6 +27,9 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
    */
   $scope.getLottery = function () {
     if(!timeLocked){
+      $ionicLoading.show({
+        template: 'Loading... <ion-spinner icon="ripple"gi class="spinner-royal"></ion-spinner>'
+      }).then( function(){} );
       hideLottery();
       delete $http.defaults.headers.common['X-Requested-With'];
       $http({
@@ -38,9 +41,11 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup) {
         },
         crossDomain: true
       }).then(function successCallback(response) {
+        $ionicLoading.hide().then(function(){ return true; });
         $scope.lottery.results = response.data.split(' ');
         displayLottery();
       }, function errorCallback(response) {
+        $ionicLoading.hide().then(function(){ return true; });
         $scope.displayError(response.status);
       });
     }

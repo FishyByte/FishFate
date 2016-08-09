@@ -2,7 +2,7 @@
  * Created by asakawa on 7/26/16.
  */
 var app = angular.module('FishFate');
-app.controller('coinController', function ($scope, $http) {
+app.controller('coinController', function ($scope, $http, $ionicLoading) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -21,6 +21,9 @@ app.controller('coinController', function ($scope, $http) {
   };
   /* coin submit pressed, animate the coins */
   $scope.submitCoinFlip = function () {
+    $ionicLoading.show({
+      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    }).then( function(){} );
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
@@ -31,11 +34,13 @@ app.controller('coinController', function ($scope, $http) {
         },
       crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.coinFlip.coinValues = response.data.split(' ');
       console.log(response.status);
       if (!isActivated)
         animateCoins();
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.displayError(response.status);
     });
   };

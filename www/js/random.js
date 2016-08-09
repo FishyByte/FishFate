@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('FishFate');
-app.controller('randomController', function ($scope, $http, $ionicPopup) {
+app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicLoading) {
   /* these arrays are used for formatting the pop up responses */
   var titleArray = [
     'The fish retrieved this number for you',
@@ -33,6 +33,9 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
   };
   // When button is clicked, the popup will be shown...
   $scope.getInt = function () {
+    $ionicLoading.show({
+      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    }).then( function(){} );
 
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
@@ -44,16 +47,21 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       },
       crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.randoms.getInt.response = response.data;
       popUpResponse(0, $scope.randoms.getInt.response);
 
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.displayError(response.status);
     });
   };
 
   // When button is clicked, the popup will be shown with results
   $scope.getBinary = function () {
+    $ionicLoading.show({
+      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    }).then( function(){} );
 
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
@@ -64,9 +72,11 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       },
       crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.randoms.getBinary.response = response.data;
       popUpResponse(1, $scope.randoms.getBinary.response);
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.displayError(response.status);
     });
   };
@@ -74,6 +84,10 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
   $scope.getHex = function () {
 
     delete $http.defaults.headers.common['X-Requested-With'];
+    $ionicLoading.show({
+      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    }).then( function(){} );
+
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-hex',
@@ -82,10 +96,12 @@ app.controller('randomController', function ($scope, $http, $ionicPopup) {
       },
       crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.randoms.getHex.response = hexRemoveLong(response.data);
 
       popUpResponse(2, $scope.randoms.getHex.response);
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.displayError(response.status);
     });
   };

@@ -2,7 +2,7 @@
  * Created by asakawa on 7/27/16.
  */
 var app = angular.module('FishFate');
-app.controller('eightBallController', function ($scope, $http) {
+app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -50,6 +50,9 @@ app.controller('eightBallController', function ($scope, $http) {
    *  3. upon completion of successful request, then call animate
    */
   $scope.submitEightBall = function () {
+    $ionicLoading.show({
+      template: 'Loading... <ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    }).then( function(){} );
     triangle.fadeOut(50);
     answer.fadeOut(50);
 
@@ -62,11 +65,13 @@ app.controller('eightBallController', function ($scope, $http) {
           'max_value': $scope.eightBall.answers.length
         },      crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.eightBall.resultIndex = parseInt(response.data);
       if (!isActivated){
         animateEightBall();
       }
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function(){ return true; });
       $scope.displayError(response.status);
     });
   };
