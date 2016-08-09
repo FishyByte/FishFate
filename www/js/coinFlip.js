@@ -2,7 +2,7 @@
  * Created by asakawa on 7/26/16.
  */
 var app = angular.module('FishFate');
-app.controller('coinController', function ($scope, $http) {
+app.controller('coinController', function ($scope, $http, $ionicLoading) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -21,21 +21,30 @@ app.controller('coinController', function ($scope, $http) {
   };
   /* coin submit pressed, animate the coins */
   $scope.submitCoinFlip = function () {
+    $ionicLoading.show({
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    });
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-ints',
       headers: {
-          'quantity': '4',
-          'max_value': '2'
-        },
+        'quantity': '4',
+        'max_value': '2'
+      },
       crossDomain: true
     }).then(function successCallback(response) {
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.coinFlip.coinValues = response.data.split(' ');
       console.log(response.status);
       if (!isActivated)
         animateCoins();
     }, function errorCallback(response) {
+      $ionicLoading.hide().then(function () {
+        return true;
+      });
       $scope.displayError(response.status);
     });
   };
@@ -100,7 +109,7 @@ app.controller('coinController', function ($scope, $http) {
     var trigger = setInterval(function () {
       if (flipCounts[elementIndex] == 1 + $scope.coinFlip.coinValues[elementIndex])
         clearInterval(trigger);
-        document.querySelector(coinIDs[elementIndex]).classList.toggle("flip");
+      document.querySelector(coinIDs[elementIndex]).classList.toggle("flip");
       flipCounts[elementIndex]++;
     }, 150);
     isActivated = false;
