@@ -10,14 +10,21 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
     'The fish retrieved this binary string for you',
     'The fish retrieved these hexadecimals for you'
   ];
+
+  /* formats the errors responses into html snippets*/
   var responseArray = [
     '<h1 style="text-align: center">{{randoms.getInt.response}}</h1>',
     '<h4 style="text-align: center">{{randoms.getBinary.response}}</h4>',
     '<h3 style="text-align: center">{{randoms.getHex.response}}</h3>'
   ];
 
+   var randomElements = [$('#randomInt'), $('#randomBin'), $('#randomHex')];
+
+
+
   /* scope variable, the following are the default values */
   $scope.randoms = {
+    menuSelection: 0,
     getInt: {
       maxValue: '100',
       response: ''
@@ -31,6 +38,13 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       response: ''
     }
   };
+
+
+  $scope.menuSelection = function(select){
+    showSelected(select);
+  };
+
+
   // When button is clicked, the popup will be shown...
   $scope.getInt = function () {
     $ionicLoading.show({
@@ -147,12 +161,22 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       $scope.randoms.getHex.response = '';
     });
   };
-  /* method to remove the "L" from long hex */
+
+  /* helper function to remove the "L" from long hex */
   function hexRemoveLong(responseString) {
     var lastChar = responseString.charAt(responseString.length - 1);
     if (lastChar == "L") {
       responseString = responseString.slice(0, -1);
     }
     return responseString;
+  }
+
+  function showSelected(index){
+    for (var i=0; i < randomElements.length; i++){
+      if (i != index){
+        randomElements[i].fadeOut(0);
+      }
+    }
+    randomElements[index].fadeIn('slow');
   }
 });
