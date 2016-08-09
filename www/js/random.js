@@ -35,9 +35,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   $scope.getInt = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then(function () {
     });
-
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
@@ -66,9 +64,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
   $scope.getBinary = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then(function () {
     });
-
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
@@ -96,9 +92,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
     delete $http.defaults.headers.common['X-Requested-With'];
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then(function () {
     });
-
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-hex',

@@ -26,7 +26,7 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
   $scope.submitRollDice = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then(function () {});
+    });
 
     $('.dieResult').fadeOut(100);
     delete $http.defaults.headers.common['X-Requested-With'];

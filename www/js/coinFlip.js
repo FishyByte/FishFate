@@ -23,7 +23,7 @@ app.controller('coinController', function ($scope, $http, $ionicLoading) {
   $scope.submitCoinFlip = function () {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    }).then(function () {});
+    });
     delete $http.defaults.headers.common['X-Requested-With'];
     $http({
       method: "GET",
