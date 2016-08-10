@@ -20,7 +20,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
 
   fishStream();
-  var MIN_BITS = 4096;
+  var MIN_BITS = 8192;
 
 
   $scope.bitStream = '';
@@ -123,13 +123,15 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
   function fishStream() {
     var inProgress = false;
+    if (window.localStorage.getItem('fishBits') == null)
+      requestBits('16384');
     $interval(function () {
       try {
         if (!inProgress) {
           var bits = window.localStorage.getItem('fishBits');
           if (bits.length < MIN_BITS) {
             inProgress = true;
-            requestBits();
+            requestBits('8192');
             setTimeout(function () {
               inProgress = false;
             }, 1000 * 5); // wait before release the inProgress lock
@@ -137,15 +139,13 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
         }
       }
       catch (Exception) {
-        requestBits();
+        requestBits('8192');
       }
     }, 500);
 
-
   }
 
-  function requestBits() {
-    console.log('adding more to local storage');
+  function requestBits(quantity) {
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     });
@@ -156,11 +156,9 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-binary',
-      headers: {'quantity': '4096'},
+      headers: {'quantity': quantity},
       crossDomain: true
     }).then(function successCallback(response) {
-
-      console.log(response.data);
       window.localStorage.setItem("fishBits", currentBits + response.data);
       $ionicLoading.hide();
     }, function errorCallback(response) {
