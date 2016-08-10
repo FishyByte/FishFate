@@ -16,7 +16,7 @@ app.run(function ($ionicPlatform) {
 });
 
 
-app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $cordovaClipboard, $http, $interval) {
+app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $cordovaClipboard, $http, $ionicLoading, $interval) {
 
 
   fishStream();
@@ -138,7 +138,6 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
             }, 1000 * 5); // wait before release the inProgress lock
           }
         }
-
       }
       catch (Exception) {
         requestBits();
@@ -150,6 +149,9 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
   function requestBits() {
     console.log('adding more to local storage');
+    $ionicLoading.show({
+      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+    });
     var currentBits = window.localStorage.getItem('fishBits');
     if (currentBits == null)
       currentBits = '';
@@ -163,7 +165,13 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
       console.log(response.data);
       window.localStorage.setItem("fishBits", currentBits + response.data);
-    }, function errorCallback(response) {
+       $ionicLoading.hide().then(function () {
+     return true;
+     });
+    }, function errorCallback(response) { $ionicLoading.hide().then(function () {
+     return true;
+     });
+
       console.log(response);
     });
   }
