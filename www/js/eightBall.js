@@ -15,9 +15,6 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
   /* scope variables, holds the eight ball responses */
   $scope.eightBall = {
     /* answers array, these strings are pre-formatted for html */
-    /*
-     Don't count on it.
-     */
     answers: [
       '&emsp;&nbsp;Fins<br>&emsp;&nbsp;point to<br>&emsp;&nbsp;yes',//0
       '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>Aye!',//1

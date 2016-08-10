@@ -16,7 +16,14 @@ app.run(function ($ionicPlatform) {
 });
 
 
-app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $cordovaClipboard) {
+app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $cordovaClipboard, $http, $interval) {
+
+
+  fishStream();
+  var MIN_BITS = 1024;
+
+
+  $scope.bitStream = '',
 
   $scope.images = {
     demo: 'img/fishDemo_2.gif',
@@ -113,4 +120,42 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
     };
     AppRate.promptForRating();
   };
+
+  function fishStream(){
+    $interval(function(){
+      try {
+        var bits = window.localStorage.getItem('fishBits');
+        if (bits.length < MIN_BITS)
+          requestBits();
+      }
+      catch (Exception) {
+        requestBits();
+      }
+
+    }, 5000);
+
+
+  }
+
+  function requestBits(){
+    console.log('adding more to local storage');
+    var currentBits = window.localStorage.getItem('fishBits');
+    if (currentBits == null)
+      currentBits = '';
+    delete $http.defaults.headers.common['X-Requested-With'];
+    $http({
+      method: "GET",
+      url: 'https://fish-bit-hub.herokuapp.com/get-binary',
+      headers: { 'quantity': '1024' },
+      crossDomain: true
+    }).then(function successCallback(response) {
+
+      console.log(response.data);
+      window.localStorage.setItem("fishBits", currentBits + response.data);
+    }, function errorCallback(response) {
+        console.log(response);
+    });
+  }
+
+
 });
