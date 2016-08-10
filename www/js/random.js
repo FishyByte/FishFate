@@ -3,23 +3,32 @@
  */
 
 var app = angular.module('FishFate');
-app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicLoading) {
+app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicLoading, fishStream) {
   /* these arrays are used for formatting the pop up responses */
   var titleArray = [
     'The fish retrieved this number for you',
     'The fish retrieved this binary string for you',
     'The fish retrieved these hexadecimals for you'
   ];
+
+  /* formats the errors responses into html snippets*/
   var responseArray = [
     '<h1 style="text-align: center">{{randoms.getInt.response}}</h1>',
     '<h4 style="text-align: center">{{randoms.getBinary.response}}</h4>',
     '<h3 style="text-align: center">{{randoms.getHex.response}}</h3>'
   ];
 
+   var randomElements = [$('#randomInt'), $('#randomBin'), $('#randomHex')];
+
+
+
   /* scope variable, the following are the default values */
   $scope.randoms = {
+    menuSelection: 0,
     getInt: {
+      minValue: '0',
       maxValue: '100',
+      range: '100',
       response: ''
     },
     getBinary: {
@@ -31,88 +40,32 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       response: ''
     }
   };
+
+
+  $scope.menuSelection = function(select){
+    showSelected(select);
+  };
+
+
   // When button is clicked, the popup will be shown...
   $scope.getInt = function () {
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-ints',
-      headers: {
-        'quantity': '1',
-        'max_value': String(parseInt($scope.randoms.getInt.maxValue) + 1)
-      },
-      crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.randoms.getInt.response = response.data;
-      popUpResponse(0, $scope.randoms.getInt.response);
-
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });
+    var max = parseInt($scope.randoms.getInt.maxValue);
+    var min = parseInt($scope.randoms.getInt.minValue);
+    var range = max - min + 1;
+    $scope.randoms.getInt.response = String(fishStream.getInt(range) + min);
+    popUpResponse(0, $scope.randoms.getInt.response);
   };
 
   // When button is clicked, the popup will be shown with results
   $scope.getBinary = function () {
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-binary',
-      headers: {
-        'quantity': $scope.randoms.getBinary.quantity
-      },
-      crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.randoms.getBinary.response = response.data;
-      popUpResponse(1, $scope.randoms.getBinary.response);
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });
+    $scope.randoms.getBinary.response = fishStream.getBits($scope.randoms.getBinary.quantity);
+    popUpResponse(1, $scope.randoms.getBinary.response);
   };
 
   $scope.getHex = function () {
-
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-hex',
-      headers: {
-        'quantity': $scope.randoms.getHex.quantity
-      },
-      crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.randoms.getHex.response = hexRemoveLong(response.data);
-
-      popUpResponse(2, $scope.randoms.getHex.response);
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });
+    // Return is converting decimal to hexadecimal
+    $scope.randoms.getHex.response = fishStream.getHex($scope.randoms.getHex.quantity);
+    popUpResponse(2, $scope.randoms.getHex.response);
   };
 
 
@@ -147,12 +100,11 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
       $scope.randoms.getHex.response = '';
     });
   };
-  /* method to remove the "L" from long hex */
-  function hexRemoveLong(responseString) {
-    var lastChar = responseString.charAt(responseString.length - 1);
-    if (lastChar == "L") {
-      responseString = responseString.slice(0, -1);
+
+  function showSelected(index){
+    for (var i=0; i < randomElements.length; i++){
+      randomElements[i].fadeOut('fast');
     }
-    return responseString;
+    randomElements[index].fadeIn('slow');
   }
 });

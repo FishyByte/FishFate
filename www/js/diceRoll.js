@@ -2,7 +2,7 @@
  * Created by asakawa on 7/26/16.
  */
 var app = angular.module('FishFate');
-app.controller('diceController', function ($scope, $http, $ionicLoading) {
+app.controller('diceController', function ($scope, $http, $ionicLoading, fishStream) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -24,37 +24,17 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
    *    3. animate the coins
    *  */
   $scope.submitRollDice = function () {
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-
-    $('.dieResult').fadeOut(100);
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-ints',
-      headers: {
-        'quantity': '5',
-        'max_value': String($scope.diceRoll.numberSides)
-      },
-      crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
+    var callbackOnce = true;
+    if(!isActivated){
+      $('.dieResult').fadeOut(100, function(){
+        if (callbackOnce){
+          callbackOnce = false;
+          for(var i = 0; i < $scope.diceRoll.diceValues.length; i++)
+            $scope.diceRoll.diceValues[i] = fishStream.getInt($scope.diceRoll.numberSides) + 1;
+          rotateDice();
+        }
       });
-      var tempArray = response.data.split(' ');
-      /* dice don't start at zero, lets correct that */
-      for (var i = 0; i < tempArray.length; i++)
-        tempArray[i]++
-      $scope.diceRoll.diceValues = tempArray;
-      if (!isActivated)
-        rotateDice();
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });
+    }
   };
 
   /* dynamically display the selected number of coins */
@@ -152,16 +132,5 @@ app.controller('diceController', function ($scope, $http, $ionicLoading) {
       }
     }, 100);
   }
-
-
-  function showLoading() {
-
-  }
-
-  function hideLoading() {
-
-  }
-
-
 });
 

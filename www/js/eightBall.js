@@ -2,7 +2,7 @@
  * Created by asakawa on 7/27/16.
  */
 var app = angular.module('FishFate');
-app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
+app.controller('eightBallController', function ($scope, fishStream) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -15,9 +15,6 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
   /* scope variables, holds the eight ball responses */
   $scope.eightBall = {
     /* answers array, these strings are pre-formatted for html */
-    /*
-     Don't count on it.
-     */
     answers: [
       '&emsp;&nbsp;Fins<br>&emsp;&nbsp;point to<br>&emsp;&nbsp;yes',//0
       '&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;<br>Aye!',//1
@@ -50,34 +47,15 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
    *  3. upon completion of successful request, then call animate
    */
   $scope.submitEightBall = function () {
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-    triangle.fadeOut(50);
-    answer.fadeOut(50);
-
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-ints',
-      headers: {
-        'quantity': '1',
-        'max_value': $scope.eightBall.answers.length
-      }, crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
+    if (!isActivated) {
+      answer.fadeOut(100, function(){
+        var int = fishStream.getInt($scope.eightBall.answers.length - 1);
+        triangle.fadeOut(100, function(){
+          animateEightBall();
+          $scope.eightBall.resultIndex = int;
+        });
       });
-      $scope.eightBall.resultIndex = parseInt(response.data);
-      if (!isActivated) {
-        animateEightBall();
-      }
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });
+    }
   };
 
   /**
@@ -100,7 +78,7 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
             right: '150px'
           }, 200, function () {
             triangle.fadeIn('slow');
-            answer.fadeIn('slow');
+            answer.fadeIn(1000);
             isActivated = false;
           });
         });
