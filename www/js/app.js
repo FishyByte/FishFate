@@ -21,6 +21,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
   fishStream();
   var MIN_BITS = 8192;
+  var displayError = false;
 
 
   $scope.bitStream = '';
@@ -43,7 +44,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
     body: [
       "<h4>The fish haven't gathered enough data, please try again later.</h4>",
       "<h4>You don't have internet connection, unable to communicate with the fish.</h4>",
-      "<h4>The fish are not cooperating right now, please try again later.</h4>"
+      "<h4>Unable to get more bits from the fish, please check your data connection.</h4>"
     ]
   };
 
@@ -70,7 +71,6 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
         messageIndex = 2;
         break;
     }
-
     /* create a pop-up message to display error text */
     var myPopup = $ionicPopup.prompt({
       template: $scope.errorMessages.body[messageIndex],
@@ -81,6 +81,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
           text: '<b>done</b>',
           type: 'button-assertive',
           onTap: function (e) {
+            displayError = false;
             return 'okay';
           }
         }
@@ -127,7 +128,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
       requestBits('16384');
     $interval(function () {
       try {
-        if (!inProgress) {
+        if (!inProgress && !displayError) {
           var bits = window.localStorage.getItem('fishBits');
           if (bits.length < MIN_BITS) {
             inProgress = true;
@@ -163,7 +164,11 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
       $ionicLoading.hide();
     }, function errorCallback(response) {
       $ionicLoading.hide();
-      console.log(response);
+      if (!displayError){
+        console.log(response.code);
+        displayError = true;
+        $scope.displayError(response.code);
+      }
     });
   }
 });
