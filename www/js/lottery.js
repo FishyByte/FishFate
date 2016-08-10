@@ -65,38 +65,6 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
     else {
       timeOutPopUp();
     }
-
-
-    /*    if (!timeLocked) {
-     $ionicLoading.show({
-     template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-     });
-     hideLottery();
-     delete $http.defaults.headers.common['X-Requested-With'];
-     $http({
-     method: "GET",
-     url: 'https://fish-bit-hub.herokuapp.com/get-lottery',
-     headers: {
-     'quantity': $scope.lottery.quantity,
-     'which-lottery': $scope.lottery.whichLottery
-     },
-     crossDomain: true
-     }).then(function successCallback(response) {
-     $ionicLoading.hide().then(function () {
-     return true;
-     });
-     $scope.lottery.results = response.data.split(' ');
-     displayLottery();
-     }, function errorCallback(response) {
-     $ionicLoading.hide().then(function () {
-     return true;
-     });
-     $scope.displayError(response.status);
-     });
-     }
-     else {
-     timeOutPopUp();
-     }*/
   };
 
   /**

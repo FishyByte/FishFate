@@ -57,35 +57,6 @@ app.controller('eightBallController', function ($scope, fishStream) {
         });
       });
     }
-
-    /*$ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-    triangle.fadeOut(50);
-    answer.fadeOut(50);
-
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-ints',
-      headers: {
-        'quantity': '1',
-        'max_value': $scope.eightBall.answers.length
-      }, crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.eightBall.resultIndex = parseInt(response.data);
-      if (!isActivated) {
-        animateEightBall();
-      }
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });*/
   };
 
   /**

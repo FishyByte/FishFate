@@ -37,40 +37,6 @@ app.controller('diceController', function ($scope, $http, $ionicLoading, fishStr
         }
       });
     }
-
-
-/*
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-
-    $('.dieResult').fadeOut(100);
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-ints',
-      headers: {
-        'quantity': '5',
-        'max_value': String($scope.diceRoll.numberSides)
-      },
-      crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      var tempArray = response.data.split(' ');
-      /!* dice don't start at zero, lets correct that *!/
-      for (var i = 0; i < tempArray.length; i++)
-        tempArray[i]++
-      $scope.diceRoll.diceValues = tempArray;
-      if (!isActivated)
-        rotateDice();
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });*/
   };
 
   /* dynamically display the selected number of coins */
@@ -168,16 +134,5 @@ app.controller('diceController', function ($scope, $http, $ionicLoading, fishStr
       }
     }, 100);
   }
-
-
-  function showLoading() {
-
-  }
-
-  function hideLoading() {
-
-  }
-
-
 });
 
