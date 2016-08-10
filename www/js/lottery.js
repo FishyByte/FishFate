@@ -26,7 +26,6 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
    *        b. otherwise report error message
    */
   $scope.getLottery = function () {
-    console.log('hit lotto');
     if (!timeLocked) {
       hideLottery();
       setTimeout(function(){
