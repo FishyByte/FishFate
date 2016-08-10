@@ -127,13 +127,10 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
       try {
         if (!inProgress) {
           var bits = window.localStorage.getItem('fishBits');
-          console.log('#bits:', bits.length);
           if (bits.length < MIN_BITS) {
             inProgress = true;
-            console.log('need more bits, #bits:', bits.length);
             requestBits();
             setTimeout(function () {
-              console.log('waiting...');
               inProgress = false;
             }, 1000 * 5); // wait before release the inProgress lock
           }

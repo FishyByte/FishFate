@@ -29,10 +29,8 @@ app.controller('diceController', function ($scope, $http, $ionicLoading, fishStr
       $('.dieResult').fadeOut(100, function(){
         if (callbackOnce){
           callbackOnce = false;
-          for(var i = 0; i < $scope.diceRoll.diceValues.length; i++){
-            console.log(i);
+          for(var i = 0; i < $scope.diceRoll.diceValues.length; i++)
             $scope.diceRoll.diceValues[i] = fishStream.getInt($scope.diceRoll.numberSides) + 1;
-          }
           rotateDice();
         }
       });

@@ -51,8 +51,6 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
           else {
             rowArray[i] = fishStream.getInt(maxWhite) + 1;
           }
-          console.log(i);
-
         }
         $scope.lottery.results = $scope.lottery.results.concat(rowArray);
         if (j == $scope.lottery.quantity - 1)

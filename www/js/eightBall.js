@@ -52,7 +52,6 @@ app.controller('eightBallController', function ($scope, fishStream) {
         var int = fishStream.getInt($scope.eightBall.answers.length - 1);
         triangle.fadeOut(100, function(){
           animateEightBall();
-          console.log(int);
           $scope.eightBall.resultIndex = int;
         });
       });
