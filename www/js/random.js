@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('FishFate');
-app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicLoading) {
+app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicLoading, fishStream) {
   /* these arrays are used for formatting the pop up responses */
   var titleArray = [
     'The fish retrieved this number for you',
@@ -49,7 +49,14 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
 
   // When button is clicked, the popup will be shown...
   $scope.getInt = function () {
-    $ionicLoading.show({
+    var range = parseInt($scope.randoms.getInt.maxValue)
+                - parseInt($scope.randoms.getInt.minValue) + 1;
+    $scope.randoms.getInt.response = String(fishStream.getInt(range)
+                                  + parseInt($scope.randoms.getInt.minValue));
+    popUpResponse(0, $scope.randoms.getInt.response);
+
+
+/*    $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     });
 
@@ -75,12 +82,14 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
         return true;
       });
       $scope.displayError(response.status);
-    });
+    });*/
   };
 
   // When button is clicked, the popup will be shown with results
   $scope.getBinary = function () {
-    $ionicLoading.show({
+    $scope.randoms.getBinary.response = fishStream.getBits($scope.randoms.getBinary.quantity);
+    popUpResponse(1, $scope.randoms.getBinary.response);
+    /*$ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     });
     delete $http.defaults.headers.common['X-Requested-With'];
@@ -102,12 +111,21 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
         return true;
       });
       $scope.displayError(response.status);
-    });
+    });*/
   };
 
   $scope.getHex = function () {
+    // Return is converting decimal to hexadecimal
+    $scope.randoms.getHex.response = fishStream.getHex($scope.randoms.getHex.quantity);
+    popUpResponse(2, $scope.randoms.getHex.response);
 
-    delete $http.defaults.headers.common['X-Requested-With'];
+
+
+
+
+    //console.log(fishStream.getBits(numberBits));
+
+   /* delete $http.defaults.headers.common['X-Requested-With'];
     $ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     });
@@ -130,7 +148,7 @@ app.controller('randomController', function ($scope, $http, $ionicPopup, $ionicL
         return true;
       });
       $scope.displayError(response.status);
-    });
+    });*/
   };
 
 

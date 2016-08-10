@@ -2,10 +2,11 @@
  * Created by asakawa on 7/26/16.
  */
 var app = angular.module('FishFate');
-app.controller('coinController', function ($scope, $http, $ionicLoading) {
+app.controller('coinController', function ($scope, $http, $ionicLoading, fishStream) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
+
 
   /* array for coin id's */
   var coinIDs = ['#coin0', '#coin1', '#coin2', '#coin3'];
@@ -21,31 +22,11 @@ app.controller('coinController', function ($scope, $http, $ionicLoading) {
   };
   /* coin submit pressed, animate the coins */
   $scope.submitCoinFlip = function () {
-    $ionicLoading.show({
-      template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-    });
-    delete $http.defaults.headers.common['X-Requested-With'];
-    $http({
-      method: "GET",
-      url: 'https://fish-bit-hub.herokuapp.com/get-ints',
-      headers: {
-        'quantity': '4',
-        'max_value': '2'
-      },
-      crossDomain: true
-    }).then(function successCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.coinFlip.coinValues = response.data.split(' ');
-      if (!isActivated)
-        animateCoins();
-    }, function errorCallback(response) {
-      $ionicLoading.hide().then(function () {
-        return true;
-      });
-      $scope.displayError(response.status);
-    });
+    //console.log(bitStream.getBits(4).split(''));
+    if (!isActivated){
+      $scope.coinFlip.coinValues = fishStream.getBits(4).split('');
+      animateCoins();
+    }
   };
 
   /**
@@ -106,11 +87,14 @@ app.controller('coinController', function ($scope, $http, $ionicLoading) {
     var flipCounts = [0, 0, 0, 0];
     /* flips the coin on an interval */
     var trigger = setInterval(function () {
-      if (flipCounts[elementIndex] == 1 + $scope.coinFlip.coinValues[elementIndex])
+      if (flipCounts[elementIndex] == 1 + $scope.coinFlip.coinValues[elementIndex]){
         clearInterval(trigger);
+        isActivated = false;
+      }
+
       document.querySelector(coinIDs[elementIndex]).classList.toggle("flip");
       flipCounts[elementIndex]++;
     }, 150);
-    isActivated = false;
+
   }
 });

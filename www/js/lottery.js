@@ -3,7 +3,7 @@
  */
 
 var app = angular.module('FishFate');
-app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionicLoading) {
+app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionicLoading, fishStream) {
 
   /* jQuery objects */
   var lotteryLines = [$('#lotteryLine0'), $('#lotteryLine1'), $('#lotteryLine2'), $('#lotteryLine3'), $('#lotteryLine4')];
@@ -26,36 +26,77 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
    *        b. otherwise report error message
    */
   $scope.getLottery = function () {
+    console.log('hit lotto');
     if (!timeLocked) {
-      $ionicLoading.show({
-        template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
-      });
       hideLottery();
-      delete $http.defaults.headers.common['X-Requested-With'];
-      $http({
-        method: "GET",
-        url: 'https://fish-bit-hub.herokuapp.com/get-lottery',
-        headers: {
-          'quantity': $scope.lottery.quantity,
-          'which-lottery': $scope.lottery.whichLottery
-        },
-        crossDomain: true
-      }).then(function successCallback(response) {
-        $ionicLoading.hide().then(function () {
-          return true;
-        });
-        $scope.lottery.results = response.data.split(' ');
-        displayLottery();
-      }, function errorCallback(response) {
-        $ionicLoading.hide().then(function () {
-          return true;
-        });
-        $scope.displayError(response.status);
-      });
+      setTimeout(function(){
+        $scope.lottery.results = []; //nuke previous results
+      var maxWhite = 0;
+      var maxRed = 0;
+      if ($scope.lottery.whichLottery == 'Powerball') {
+        maxWhite = 69;
+        maxRed = 26;
+      }
+      else {
+        maxWhite = 75;
+        maxRed = 15;
+      }
+      for (var j = 0; j < $scope.lottery.quantity; j++) {
+        var rowArray = [];
+        for (var i = 0; i < 6; i++) {
+          if (i == 5) {
+            rowArray = rowArray.sort(numberSort);
+            rowArray[i] = fishStream.getInt(maxRed) + 1;
+          }
+          else {
+            rowArray[i] = fishStream.getInt(maxWhite) + 1;
+          }
+          console.log(i);
+
+        }
+        $scope.lottery.results = $scope.lottery.results.concat(rowArray);
+        if (j == $scope.lottery.quantity - 1)
+          displayLottery();
+      }
+      }, 400);
+
+
     }
     else {
       timeOutPopUp();
     }
+
+
+    /*    if (!timeLocked) {
+     $ionicLoading.show({
+     template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
+     });
+     hideLottery();
+     delete $http.defaults.headers.common['X-Requested-With'];
+     $http({
+     method: "GET",
+     url: 'https://fish-bit-hub.herokuapp.com/get-lottery',
+     headers: {
+     'quantity': $scope.lottery.quantity,
+     'which-lottery': $scope.lottery.whichLottery
+     },
+     crossDomain: true
+     }).then(function successCallback(response) {
+     $ionicLoading.hide().then(function () {
+     return true;
+     });
+     $scope.lottery.results = response.data.split(' ');
+     displayLottery();
+     }, function errorCallback(response) {
+     $ionicLoading.hide().then(function () {
+     return true;
+     });
+     $scope.displayError(response.status);
+     });
+     }
+     else {
+     timeOutPopUp();
+     }*/
   };
 
   /**
@@ -89,9 +130,11 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
   /**
    *  hide all of the lottery lines
    */
-  function hideLottery() {
+  function hideLottery(callback) {
     for (var i = 4; i >= 0; i--)
       lotteryLines[i].fadeOut(300);
+    if (i ==  0)
+      return callback;
   }
 
   /**
@@ -125,6 +168,10 @@ app.controller('lotteryController', function ($scope, $http, $ionicPopup, $ionic
     timeOutPopUp.then(function (res) {
 
     });
+  }
+
+  function numberSort(a, b) {
+    return a - b;
   }
 
 

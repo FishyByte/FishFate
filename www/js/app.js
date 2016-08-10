@@ -20,10 +20,10 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
 
   fishStream();
-  var MIN_BITS = 1024;
+  var MIN_BITS = 4096;
 
 
-  $scope.bitStream = '',
+  $scope.bitStream = '';
 
   $scope.images = {
     demo: 'img/fishDemo_2.gif',
@@ -121,23 +121,34 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
     AppRate.promptForRating();
   };
 
-  function fishStream(){
-    $interval(function(){
+  function fishStream() {
+    var inProgress = false;
+    $interval(function () {
       try {
-        var bits = window.localStorage.getItem('fishBits');
-        if (bits.length < MIN_BITS)
-          requestBits();
+        if (!inProgress) {
+          var bits = window.localStorage.getItem('fishBits');
+          console.log('#bits:', bits.length);
+          if (bits.length < MIN_BITS) {
+            inProgress = true;
+            console.log('need more bits, #bits:', bits.length);
+            requestBits();
+            setTimeout(function () {
+              console.log('waiting...');
+              inProgress = false;
+            }, 1000 * 5); // wait before release the inProgress lock
+          }
+        }
+
       }
       catch (Exception) {
         requestBits();
       }
-
-    }, 5000);
+    }, 500);
 
 
   }
 
-  function requestBits(){
+  function requestBits() {
     console.log('adding more to local storage');
     var currentBits = window.localStorage.getItem('fishBits');
     if (currentBits == null)
@@ -146,16 +157,62 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
     $http({
       method: "GET",
       url: 'https://fish-bit-hub.herokuapp.com/get-binary',
-      headers: { 'quantity': '1024' },
+      headers: {'quantity': '4096'},
       crossDomain: true
     }).then(function successCallback(response) {
 
       console.log(response.data);
       window.localStorage.setItem("fishBits", currentBits + response.data);
     }, function errorCallback(response) {
-        console.log(response);
+      console.log(response);
     });
   }
+});
 
 
+app.factory('fishStream', function () {
+  var fishStream = {};
+  fishStream.getBits = function (amount) {
+    var bits = window.localStorage.getItem('fishBits');
+    var bitsRequested = bits.slice(0, amount);
+    bits = bits.replace(bitsRequested, '');
+    window.localStorage.setItem("fishBits", bits);
+    return bitsRequested;
+  };
+
+  fishStream.getInt = function (max) {
+    var intFound = false;
+    var integer = -1;
+    while (!intFound) {
+      var numberBits = Math.ceil(Math.log2(max + 1));
+      var bitString = fishStream.getBits(numberBits);
+      integer = parseInt(bitString, 2);
+      if (integer < max)
+        intFound = true;
+    }
+    return integer
+  };
+
+  fishStream.getHex = function (quantity) {
+    var response = '';
+    for (var j = 0; j < quantity; j++) {
+      var binaryString = String(fishStream.getBits(4));
+      var z = -1;
+      var number = 0;
+      for (var i = binaryString.length; i > -1; i--) {
+        //Every 1 in binary string is converted to decimal and added to number
+        if (binaryString.charAt(i) == "1")
+          number += Math.pow(2, z);
+        z += 1;
+      }
+      // convert to hex
+      var hexValue = number.toString(16);
+      // make uppercase
+      hexValue = hexValue.toUpperCase();
+      response += hexValue;
+    }
+    return response;
+  };
+
+  return fishStream;
 });

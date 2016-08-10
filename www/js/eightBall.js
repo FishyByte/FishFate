@@ -2,7 +2,7 @@
  * Created by asakawa on 7/27/16.
  */
 var app = angular.module('FishFate');
-app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
+app.controller('eightBallController', function ($scope, fishStream) {
 
   /* boolean used to stop rapid button presses */
   var isActivated = false;
@@ -47,7 +47,18 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
    *  3. upon completion of successful request, then call animate
    */
   $scope.submitEightBall = function () {
-    $ionicLoading.show({
+    if (!isActivated) {
+      answer.fadeOut(100, function(){
+        var int = fishStream.getInt($scope.eightBall.answers.length - 1);
+        triangle.fadeOut(100, function(){
+          animateEightBall();
+          console.log(int);
+          $scope.eightBall.resultIndex = int;
+        });
+      });
+    }
+
+    /*$ionicLoading.show({
       template: '<ion-spinner icon="ripple" class="spinner-royal"></ion-spinner>'
     });
     triangle.fadeOut(50);
@@ -74,7 +85,7 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
         return true;
       });
       $scope.displayError(response.status);
-    });
+    });*/
   };
 
   /**
@@ -97,7 +108,7 @@ app.controller('eightBallController', function ($scope, $http, $ionicLoading) {
             right: '150px'
           }, 200, function () {
             triangle.fadeIn('slow');
-            answer.fadeIn('slow');
+            answer.fadeIn(1000);
             isActivated = false;
           });
         });
