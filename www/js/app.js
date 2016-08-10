@@ -165,7 +165,7 @@ app.controller('fishController', function ($scope, $ionicHistory, $ionicPopup, $
 
       console.log(response.data);
       window.localStorage.setItem("fishBits", currentBits + response.data);
-       $ionicLoading.hide();
+      $ionicLoading.hide();
     }, function errorCallback(response) {
       $ionicLoading.hide();
       console.log(response);
