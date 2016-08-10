@@ -4,11 +4,14 @@
 var app = angular.module('FishFate');
 app.controller('aboutViewController', function ($scope) {
 
-
-  var LIST_HEIGHT = $('#aboutBlock').height();
-  var VIEW_HEIGHT = $('#aboutView').height();
-  var PADDING = 10;
-  var height = VIEW_HEIGHT - LIST_HEIGHT - PADDING;
+  /**
+   * calculates the height of the view, so the list can
+   * expand to fill the screen.
+   * */
+  var listHeight = $('#aboutBlock').height();
+  var viewHeight = $('#aboutView').height();
+  var padding = 10;
+  var height = viewHeight - listHeight - padding;
 
   /* array to hold all the jQuery elements */
   var listItems = [$('#listItem0'), $('#listItem1'), $('#listItem2'), $('#listItem3'), $('#listItem4')];
@@ -19,69 +22,67 @@ app.controller('aboutViewController', function ($scope) {
     switch (index) {
       case 0:
         hideAll(0);
-        listElements[1].animate({height: '40px'}, 'fast');
-        listElements[2].animate({height: '40px'}, 'fast');
-        listElements[3].animate({height: '40px'}, 'fast');
-        listElements[4].animate({height: '40px'}, 'fast', function () {
-          listElements[0].animate({height: height}, 'fast', function () {
-            listItems[0].fadeIn('fast');
-          });
-        });
+        hideOthers(0, showEntry(0));
         break;
       case 1:
         hideAll(1);
-        listElements[0].animate({height: '40px'}, 'fast');
-        listElements[2].animate({height: '40px'}, 'fast');
-        listElements[3].animate({height: '40px'}, 'fast');
-        listElements[4].animate({height: '40px'}, 'fast', function () {
-          listElements[1].animate({height: height}, 'fast', function () {
-            listItems[1].fadeIn('fast');
-          });
-        });
+        hideOthers(1, showEntry(1));
         break;
       case 2:
         hideAll(2);
-        listElements[0].animate({height: '40px'}, 'fast');
-        listElements[1].animate({height: '40px'}, 'fast');
-        listElements[3].animate({height: '40px'}, 'fast');
-        listElements[4].animate({height: '40px'}, 'fast', function () {
-          listElements[2].animate({height: height}, 'fast', function () {
-            listItems[2].fadeIn('fast');
-          });
-        });
+        hideOthers(2, showEntry(2));
         break;
       case 3:
         hideAll(3);
-        listElements[0].animate({height: '40px'}, 'fast');
-        listElements[1].animate({height: '40px'}, 'fast');
-        listElements[2].animate({height: '40px'}, 'fast');
-        listElements[4].animate({height: '40px'}, 'fast', function () {
-          listElements[3].animate({height: height}, 'fast', function () {
-            listItems[3].fadeIn('fast');
-          });
-        });
+        hideOthers(3, showEntry(3));
         break;
       case 4:
         hideAll(4);
-        listElements[0].animate({height: '40px'}, 'fast');
-        listElements[1].animate({height: '40px'}, 'fast');
-        listElements[2].animate({height: '40px'}, 'fast');
-        listElements[3].animate({height: '40px'}, 'fast', function () {
-          listElements[4].animate({height: height}, 'fast', function () {
-            listItems[4].fadeIn('fast');
-          });
-        });
+        hideOthers(4, showEntry(4));
         break;
       default:
         break;
     }
   };
 
+  /* fade out all the listItems besides the one selected */
   function hideAll(index) {
     for (var i = 0; i < listItems.length; i++) {
       if (i != index)
         listItems[i].fadeOut('fast');
     }
+  }
+
+  /**
+   *  collapse all the listElements, except the one selected.
+   *  this only returns the callback after the last list element
+   *  is collapsed.
+   * */
+  function hideOthers(index, callback) {
+    var counter = 0;
+    for (var i = 0; i < listElements.length; i++) {
+      if (i != index) {
+        counter++;
+        // if its the last element then return with the callback
+        if (counter == listElements.length - 2)
+          listElements[i].animate({height: '40px'}, 'fast', function () {
+            return callback;
+          });
+        else
+          listElements[i].animate({height: '40px'}, 'fast');
+      }
+    }
+  }
+
+  /**
+   * shows one entry of the list:
+   *    1. expand list area
+   *    2. fade in list item content
+   * */
+  function showEntry(index) {
+    listElements[index].animate({height: height}, 'fast', function () {
+      listItems[index].fadeIn('fast');
+    });
   }
 
 });
