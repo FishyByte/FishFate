@@ -52,6 +52,10 @@ for iOS build, simply download and install the xcode dev tools from the market.
 Building the project is made super easy with ionic. Anywhere there is a `<platform>` swap that out for 
 your desired platform, either `ios` or `android`.
 
+0.  Clone the repo
+    ```
+    git clone https://github.com/FishyByte/FishFate.git
+    ```
 
 1.  Install npm dependencies.
     ```
@@ -63,7 +67,16 @@ your desired platform, either `ios` or `android`.
     ionic platform add <platform>
     ```
 
-3. Now build the project.
+2.  Install the plugins, This app uses the following cordova plugins
+    `CopyToClipboard`, `inAppBroweser`, and `appRate`. 
+    ```
+    cordova plugin add https://github.com/VersoSolutions/CordovaClipboard.git
+    cordova plugin add cordova-plugin-inappbrowser
+    cordova plugin add https://github.com/pushandplay/cordova-plugin-apprate.git
+    ```
+    
+
+3. Now we can build the project.
    ```
    ionic build <platform>
    ```
